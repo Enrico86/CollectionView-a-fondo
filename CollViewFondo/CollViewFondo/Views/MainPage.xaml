@@ -21,7 +21,9 @@
         <CollectionView ItemsSource="{Binding Products}"
                         Margin="5"
                         ItemTemplate="{StaticResource productTemplateSelector}"
-                        x:Name="collectionView">
+                        x:Name="collectionView"
+                        RemainingItemsThreshold="1"
+                        RemainingItemsThresholdReachedCommand="{Binding ThresholdReachedCommand}">
             <CollectionView.Resources>
                 <DataTemplate x:Key="productWithOffer">
                     <SwipeView>

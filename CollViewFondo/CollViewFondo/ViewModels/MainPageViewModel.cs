@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,14 +12,24 @@ namespace CollViewFondo.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<Product> Products
+        {
+            get => products; 
+            set
+            {
+                products = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand Favorite_Command { get; set; }
         public ICommand Delete_Command { get; set; }
         public ICommand Refresh_Command { get; set; }
+
+        public ICommand ThresholdReachedCommand { get; set; }
         public bool IsRefreshing
         {
-            get => isRefreshing; 
+            get => isRefreshing;
             set
             {
                 isRefreshing = value;
@@ -28,9 +39,11 @@ namespace CollViewFondo.ViewModels
 
         int i = 0;
         private bool isRefreshing;
+        private ObservableCollection<Product> products;
 
         public MainPageViewModel()
         {
+            Products = new ObservableCollection<Product>();
             RefreshItems();
             Delete_Command = new Command((item) =>
             {
@@ -46,11 +59,16 @@ namespace CollViewFondo.ViewModels
                 RefreshItems();
                 IsRefreshing = false;
             });
+            ThresholdReachedCommand = new Command(async () =>
+            {
+                RefreshItems(Products.Count);
+            });
         }
 
-        private void RefreshItems()
+        private void RefreshItems(int lastIndex = 0)
         {
-            Products = new ObservableCollection<Product>
+            int numberOfItemsPerPage = 10;
+            var items = new ObservableCollection<Product>
             {
                 new Product
                 {
@@ -413,6 +431,11 @@ namespace CollViewFondo.ViewModels
                     HasOffer = false
                 },
             };
+            var pageItems = items.Skip(lastIndex).Take(numberOfItemsPerPage);
+            foreach (var item in pageItems)
+            {
+                Products.Add(item);
+            }
         }
     }
 }
