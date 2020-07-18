@@ -67,7 +67,7 @@ namespace CollViewFondo.ViewModels
 
         private void RefreshItems(int lastIndex = 0)
         {
-            int numberOfItemsPerPage = 10;
+            int numberOfItemsPerPage = 10; 
             var items = new ObservableCollection<Product>
             {
                 new Product

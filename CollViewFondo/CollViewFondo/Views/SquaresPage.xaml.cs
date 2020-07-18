@@ -1,4 +1,5 @@
-﻿using CollViewFondo.Services;
+﻿using CollViewFondo.Models;
+using CollViewFondo.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,8 +18,14 @@ namespace CollViewFondo.Views
         public SquaresPage()
         {
             InitializeComponent();
-            var colors = ColorsService.GetColors();
+            var colors = ColorsService.GetColors(25);
             BindingContext = new ObservableCollection<SquareColor>(colors);
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            BoxView box = sender as BoxView;
+            box.HeightRequest = box.WidthRequest = 300;
         }
     }
 }

@@ -5,11 +5,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CollViewFondo.Views.SquaresPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+    <CollectionView ItemsSource="{Binding}">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout HorizontalItemSpacing="10"
+                             VerticalItemSpacing="0"
+                             Orientation="Vertical"
+                             Span="1"></GridItemsLayout>
+        </CollectionView.ItemsLayout>
+        <CollectionView.Header>
+            <Frame BackgroundColor="DarkBlue"
+                   HeightRequest="100">
+                <Label Text="Blue Colors"
+                       TextColor="White"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"></Label>
+            </Frame>
+        </CollectionView.Header>
+        <CollectionView.Footer>
+            <Frame BackgroundColor="DarkBlue">
+                <Label Text="End of the List"
+                       TextColor="White"
+                       FontSize="Medium"
+                       HorizontalTextAlignment="Center"></Label>
+            </Frame>
+        </CollectionView.Footer>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <BoxView Color="{Binding HexCode}"
+                         HeightRequest="{Binding Size}">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollViewFondo.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace CollViewFondo
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new SquaresPage();
         }
 
         protected override void OnStart()
