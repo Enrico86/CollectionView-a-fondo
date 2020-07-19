@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CollViewFondo.Views.PeoplePage"
+             BackgroundColor="DodgerBlue">
+    <CollectionView x:Name="peopleCollectionView"
+                    Margin="10"
+                    ItemsSource="{Binding People}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedPerson}"
+                    SelectionChangedCommand="{Binding PersonChanged_Command}"
+                    SelectionChangedCommandParameter="{Binding Source={x:Reference peopleCollectionView}, Path=SelectedItem}">
+    <!--<CollectionView Margin="10"
+                    x:Name="collectionViewMultiple"
+                    ItemsSource="{Binding People}"
+                    SelectionMode="Multiple"
+                    SelectedItems="{Binding SelectedPeople}"
+                    SelectionChangedCommand="{Binding PeopleChanged_Command}"
+                    SelectionChangedCommandParameter="{Binding Source={x:Reference collectionViewMultiple}, Path=SelectedItems}">-->
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout ItemSpacing="10"
+                               Orientation="Vertical"></LinearItemsLayout>
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame BackgroundColor="LightBlue"
+                       CornerRadius="15">
+                    <StackLayout>
+                        <StackLayout.Resources>
+                            <ResourceDictionary>
+                                <Style TargetType="Label">
+                                    <Setter Property="FontSize" Value="Medium"></Setter>
+                                    <Setter Property="FontFamily" Value="Arial"></Setter>
+                                    <Setter Property="TextColor" Value="Black"></Setter>
+                                </Style>
+                            </ResourceDictionary>
+                        </StackLayout.Resources>
+                        <Label Text="{Binding FirstName, StringFormat='FirstName: {0}'}"></Label>
+                        <Label Text="{Binding LastName, StringFormat='LastName: {0}'}"></Label>
+                        <Label Text="{Binding Age, StringFormat='Age: {0}'}"></Label>
+                        <Label Text="{Binding Address, StringFormat='Address: {0}'}"></Label>
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
