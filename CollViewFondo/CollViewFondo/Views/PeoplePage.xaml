@@ -6,21 +6,47 @@
              mc:Ignorable="d"
              x:Class="CollViewFondo.Views.PeoplePage"
              BackgroundColor="DodgerBlue">
-    <CollectionView x:Name="peopleCollectionView"
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Frame">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGreen"></Setter>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightCyan"></Setter>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>                
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout>
+        <Button Command="{Binding ClearCommand}"
+                Text="Clear Selection"></Button>
+        <!--<CollectionView x:Name="peopleCollectionView"
                     Margin="10"
                     ItemsSource="{Binding People}"
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedPerson}"
                     SelectionChangedCommand="{Binding PersonChanged_Command}"
-                    SelectionChangedCommandParameter="{Binding Source={x:Reference peopleCollectionView}, Path=SelectedItem}">
-    <!--<CollectionView Margin="10"
-                    x:Name="collectionViewMultiple"
-                    ItemsSource="{Binding People}"
-                    SelectionMode="Multiple"
-                    SelectedItems="{Binding SelectedPeople}"
-                    SelectionChangedCommand="{Binding PeopleChanged_Command}"
-                    SelectionChangedCommandParameter="{Binding Source={x:Reference collectionViewMultiple}, Path=SelectedItems}">-->
-        <CollectionView.ItemsLayout>
+                    SelectionChangedCommandParameter="{Binding Source={x:Reference peopleCollectionView}, Path=SelectedItem}">-->
+        <CollectionView Margin="10"
+                        x:Name="collectionViewMultiple"
+                        ItemsSource="{Binding People}"
+                        SelectionMode="Multiple"
+                        SelectedItems="{Binding SelectedPeople}"
+                        SelectionChangedCommand="{Binding PeopleChanged_Command}"
+                        SelectionChangedCommandParameter="{Binding Source={x:Reference collectionViewMultiple}, Path=SelectedItems}">
+            <CollectionView.ItemsLayout>
             <LinearItemsLayout ItemSpacing="10"
                                Orientation="Vertical"></LinearItemsLayout>
         </CollectionView.ItemsLayout>
@@ -47,4 +73,5 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
+    </StackLayout>
 </ContentPage>

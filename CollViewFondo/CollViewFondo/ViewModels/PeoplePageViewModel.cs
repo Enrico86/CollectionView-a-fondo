@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace CollViewFondo.ViewModels
 {
-    public class PeoplePageViewModel
+    public class PeoplePageViewModel: BaseViewModel
     {
         private Person selectedPerson;
         private List<object> selectedPeople;
@@ -19,12 +19,14 @@ namespace CollViewFondo.ViewModels
         public List<Person> SelectedPeopleList { get; set; }
         public ICommand PersonChanged_Command { get; set; }
         public ICommand PeopleChanged_Command { get; set; }
+        public ICommand ClearCommand { get; set; }
         public List<object> SelectedPeople
         {
             get => selectedPeople;
             set
             {
                 selectedPeople = value;
+                OnPropertyChanged();
             }
         }
         public Person SelectedPerson
@@ -33,6 +35,7 @@ namespace CollViewFondo.ViewModels
             set
             {
                 selectedPerson = value;
+                OnPropertyChanged();
             }
         }
 
@@ -56,6 +59,12 @@ namespace CollViewFondo.ViewModels
             {
                 var multipleSelection = p;
 
+            });
+
+            ClearCommand = new Command(() =>
+            {
+                SelectedPerson = null;
+                SelectedPeople = null;
             });
         }
 
