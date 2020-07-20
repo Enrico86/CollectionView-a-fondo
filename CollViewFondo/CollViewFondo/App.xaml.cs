@@ -11,7 +11,7 @@ namespace CollViewFondo
         {
             InitializeComponent();
 
-            MainPage = new PeoplePage();
+            MainPage = new EmptyDemoPage();
         }
 
         protected override void OnStart()

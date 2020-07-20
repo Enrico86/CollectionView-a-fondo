@@ -14,12 +14,12 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightGreen"></Setter>
+                                    <Setter Property="BackgroundColor" Value="AliceBlue"></Setter>
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="LightCyan"></Setter>
+                                    <Setter Property="BackgroundColor" Value="LightPink"></Setter>
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

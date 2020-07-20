@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customs="clr-namespace:CollViewFondo.CustomTypes"
+             xmlns:selectors="clr-namespace:CollViewFondo.Selectors"
+             mc:Ignorable="d"
+             x:Class="CollViewFondo.Views.EmptyDemoPage">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="TextFormat1">
+            <Label Margin="10,25,10,10"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Fill"
+                           Text="{Binding Filter, StringFormat='Your first filter term of: {0} did not match any records'}"></Label>
+        </DataTemplate>
+        <DataTemplate x:Key="TextFormat2">
+            <Label Margin="25,25,25,25"
+                           FontSize="24"
+                           FontAttributes="Italic"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Fill"
+                           Text="{Binding Filter, StringFormat='Your second filter term of: {0} did not match any records'}"></Label>
+        </DataTemplate>
+        <selectors:SearchTermDataTemplateSelector x:Key="SearchSelectors"
+                                                  DefaultTemplate="{StaticResource TextFormat1}"
+                                                  SecondaryTemplate="{StaticResource TextFormat2}">
+        </selectors:SearchTermDataTemplateSelector>
+        <ContentView x:Key="NoResultsView">
+            <Frame>
+                <StackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Label">
+                                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Image HeightRequest="150"
+                           Source="notfound.png"
+                           VerticalOptions="Center"></Image>
+                    <Label Text="No hay"
+                            FontSize="Medium"
+                            TextColor="DarkRed"></Label>
+                    <Label Text="DATOS"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+        <ContentView x:Key="ConnectivityIssue">
+            <Frame>
+                <StackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Label">
+                                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Image HeightRequest="150"
+                           Source="no_internet.png"
+                           VerticalOptions="Center"></Image>
+                    <Label Text="No hay"
+                            FontSize="Medium"
+                            TextColor="DarkRed"></Label>
+                    <Label Text="CONEXIÓN"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+        </ContentView>
+    </ContentPage.Resources>
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Toggle EmptyViews"></Label>
+            <Switch Toggled="Switch_Toggled"></Switch>
+        </StackLayout>
+        <CollectionView x:Name="emptyDemo"
+                        EmptyViewTemplate="{StaticResource SearchSelectors}">
+            <CollectionView.EmptyView>
+                <customs:FilterData Filter="Azure"></customs:FilterData>
+            </CollectionView.EmptyView>
+            <!--<CollectionView.EmptyViewTemplate>
+                <DataTemplate>
+                    <Label Margin="10,25,10,10"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Fill"
+                           Text="{Binding Filter, StringFormat='Your filter term of: {0} did not match any records'}"></Label>
+                </DataTemplate>
+            </CollectionView.EmptyViewTemplate>-->
+        <!--<CollectionView.EmptyView>
+            <Frame>
+                <StackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Label">
+                                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Image HeightRequest="150"
+                           Source="notfound.png"
+                           VerticalOptions="Center"></Image>
+                    <Label Text="No hay"
+                            FontSize="Medium"
+                            TextColor="DarkRed"></Label>
+                    <Label Text="DATOS"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+        </CollectionView.EmptyView>-->
+        <CollectionView.ItemsSource>
+            <!--<x:Array Type="{x:Type x:String}">
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+                <x:String>Row sample</x:String>
+            </x:Array>-->
+        </CollectionView.ItemsSource> 
+    </CollectionView>
+    </StackLayout>
+</ContentPage>
