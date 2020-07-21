@@ -10,7 +10,7 @@ namespace CollViewFondo.Selectors
     {
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            var collection = container as CollectionView;
+            var collection = container as GroupableItemsView;
             if(container !=null)
             {
                 var product = item as Product;

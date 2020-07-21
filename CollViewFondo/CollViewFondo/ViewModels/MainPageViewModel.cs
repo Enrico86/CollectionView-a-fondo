@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -12,6 +13,8 @@ namespace CollViewFondo.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
+        private bool isRefreshing;
+        private ObservableCollection<Product> products;
         public ObservableCollection<Product> Products
         {
             get => products; 
@@ -36,11 +39,7 @@ namespace CollViewFondo.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        int i = 0;
-        private bool isRefreshing;
-        private ObservableCollection<Product> products;
-
+        public ObservableCollection<ProductGroup> ProductsGroupedList { get; set; }
         public MainPageViewModel()
         {
             Products = new ObservableCollection<Product>();
@@ -67,8 +66,8 @@ namespace CollViewFondo.ViewModels
 
         private void RefreshItems(int lastIndex = 0)
         {
-            int numberOfItemsPerPage = 10; 
-            var items = new ObservableCollection<Product>
+            int numberOfItemsPerPage = 0; 
+            var items = new List<Product>
             {
                 new Product
                 {
@@ -431,10 +430,18 @@ namespace CollViewFondo.ViewModels
                     HasOffer = false
                 },
             };
-            var pageItems = items.Skip(lastIndex).Take(numberOfItemsPerPage);
+            var grouped = from i in items
+                          orderby i.Name
+                          group i by i.Name[0].ToString()
+                          into groups
+                          select new ProductGroup(groups.Key,groups.ToList());
+            ProductsGroupedList = new ObservableCollection<ProductGroup>(grouped);
+            ProductsGroupedList.Add(new ProductGroup("Empty DEMO", new List<Product>()));
+            var itemsObs = new ObservableCollection<ProductGroup>(ProductsGroupedList);
+            var pageItems = itemsObs.Skip(lastIndex).Take(numberOfItemsPerPage);
             foreach (var item in pageItems)
             {
-                Products.Add(item);
+                ProductsGroupedList.Add(item);
             }
         }
     }
