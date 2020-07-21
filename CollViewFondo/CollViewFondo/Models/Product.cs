@@ -1,11 +1,14 @@
-﻿using System;
+﻿using CollViewFondo.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CollViewFondo.Models
 {
-    public class Product
+    public class Product: BaseViewModel
     {
+        public int ID { get; set; }
+
         private string name;
 
         public string Name
@@ -51,13 +54,11 @@ namespace CollViewFondo.Models
         public decimal OfferPrice
         {
             get { return offerPrice; }
-            set { offerPrice = value; }
+            set 
+            { 
+                offerPrice = value;
+                OnPropertyChanged();
+            }
         }
-
-        public Product()
-        {
-                OfferPrice = Price * (Discount / 100);
-        }
-
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace CollViewFondo.ViewModels
                 RefreshItems();
                 IsRefreshing = false;
             });
-            ThresholdReachedCommand = new Command(async () =>
+            ThresholdReachedCommand = new Command(() =>
             {
                 RefreshItems(Products.Count);
             });
@@ -435,6 +436,20 @@ namespace CollViewFondo.ViewModels
                           group i by i.Name[0].ToString()
                           into groups
                           select new ProductGroup(groups.Key,groups.ToList());
+            int id = 1;
+            decimal offerPrice = 0;
+            foreach (var group in grouped)
+            {
+                foreach (var item in group)
+                {
+                    item.ID = id;
+                    id++;
+                    offerPrice = item.Price * (item.Discount / 100);
+                    item.OfferPrice = offerPrice;
+                }
+            }
+
+
             ProductsGroupedList = new ObservableCollection<ProductGroup>(grouped);
             ProductsGroupedList.Add(new ProductGroup("Empty DEMO", new List<Product>()));
             var itemsObs = new ObservableCollection<ProductGroup>(ProductsGroupedList);
@@ -444,5 +459,8 @@ namespace CollViewFondo.ViewModels
                 ProductsGroupedList.Add(item);
             }
         }
+        
+        public async Task GetData()
+    
     }
 }

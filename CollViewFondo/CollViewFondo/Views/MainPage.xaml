@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:selectors="clr-namespace:CollViewFondo.Selectors"
              mc:Ignorable="d"
              x:Class="CollViewFondo.MainPage"
@@ -16,163 +16,184 @@
             </selectors:ProductDataTemplateSelector>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <RefreshView Command="{Binding Refresh_Command}"
+    <StackLayout>
+        <Button HeightRequest="100"
+                Text="Manual Scroling"
+                Clicked="Button_Clicked"></Button>
+        <RefreshView Command="{Binding Refresh_Command}"
                  IsRefreshing="{Binding IsRefreshing}">
-        <CollectionView ItemsSource="{Binding ProductsGroupedList}"
-                        Margin="5"
-                        ItemTemplate="{StaticResource productTemplateSelector}"
-                        x:Name="collectionView"
-                        RemainingItemsThreshold="1"
-                        RemainingItemsThresholdReachedCommand="{Binding ThresholdReachedCommand}"
-                        IsGrouped="True">
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <Label BackgroundColor="LightGray"
-                           FontAttributes="Bold"
-                           FontSize="Large"
-                           Text="{Binding GroupName}"
-                           TextColor="Black"
-                           HorizontalTextAlignment="Center"></Label>
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate>
-                    <Label BackgroundColor="LightCyan"
-                           Margin="0,0,0,10"
-                           Text="{Binding Count, StringFormat='Este grupo de productos se compone de {0:D} elemento/s'}"></Label>
-                </DataTemplate>    
-            </CollectionView.GroupFooterTemplate>
-            <CollectionView.Resources>
-                <DataTemplate x:Key="productWithOffer">
-                    <SwipeView>
-                        <SwipeView.LeftItems>
-                            <SwipeItem BackgroundColor="LightPink"
-                                       Text="Delete"
-                                       Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Delete_Command}"
-                                       CommandParameter="{Binding }"
-                                       IconImageSource="trash.png"></SwipeItem>
-                        </SwipeView.LeftItems>
-                        <SwipeView.RightItems>
-                            <SwipeItem BackgroundColor="LightGreen"
-                                       Text="Favorite"
-                                       Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Favorite_Command}"
-                                       IconImageSource="favorite_star.png"></SwipeItem>
-                        </SwipeView.RightItems>
-                        <Frame Padding="5"
+            <CollectionView ItemsSource="{Binding ProductsGroupedList}"
+                            Margin="5"
+                            ItemTemplate="{StaticResource productTemplateSelector}"
+                            x:Name="collectionView"
+                            RemainingItemsThreshold="1"
+                            RemainingItemsThresholdReachedCommand="{Binding ThresholdReachedCommand}"
+                            IsGrouped="True"
+                            Scrolled="collectionView_Scrolled"
+                            ItemsUpdatingScrollMode="KeepLastItemInView"
+                            VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="1"
+                                       SnapPointsType="MandatorySingle"
+                                       SnapPointsAlignment="Start"></LinearItemsLayout>
+                </CollectionView.ItemsLayout>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label BackgroundColor="LightGray"
+                               FontAttributes="Bold"
+                               FontSize="Large"
+                               Text="{Binding GroupName}"
+                               TextColor="Black"
+                               HorizontalTextAlignment="Center"></Label>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Label BackgroundColor="LightCyan"
+                               Margin="0,0,0,10"
+                               Text="{Binding Count, StringFormat='Este grupo de productos se compone de {0:D} elemento/s'}"></Label>
+                    </DataTemplate>
+                </CollectionView.GroupFooterTemplate>
+                <CollectionView.Resources>
+                    <DataTemplate x:Key="productWithOffer">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem BackgroundColor="LightPink"
+                                           Text="Delete"
+                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Delete_Command}"
+                                           CommandParameter="{Binding }"
+                                           IconImageSource="trash.png"></SwipeItem>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItem BackgroundColor="LightGreen"
+                                           Text="Favorite"
+                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Favorite_Command}"
+                                           IconImageSource="favorite_star.png"></SwipeItem>
+                            </SwipeView.RightItems>
+                            <Frame Padding="5"
+                                CornerRadius="10"
+                                IsClippedToBounds="False"
+                                BackgroundColor="Beige">
+                                <Grid HeightRequest="100">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="Discount"
+                                        TextColor="Red"
+                                        Grid.Column="2"
+                                        HorizontalOptions="Center"></Label>
+                                    <Button Text="{Binding Discount, StringFormat='{0}%'}"
+                                        Grid.Column="2"
+                                        Grid.Row="1"
+                                        Grid.RowSpan="2"
+                                        BackgroundColor="LightPink"
+                                        TextColor="DarkRed"
+                                        FontSize="20"
+                                        Rotation="315"
+                                        CornerRadius="30"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="60"
+                                        HeightRequest="60"></Button>
+                                    <Label Text="{Binding Name}"
+                                        Grid.Column="1"
+                                        FontAttributes="Bold"></Label>
+                                    <Image Source="{Binding Image}"
+                                        Grid.RowSpan="3"
+                                        Aspect="AspectFit"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        HeightRequest="75"></Image>
+                                    <Label Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                    Grid.Column="1"
+                                    Grid.Row="1">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                    Binding="{Binding HasOffer}"
+                                                    Value="True">
+                                                <Setter Property="TextColor" Value="DarkRed"></Setter>
+                                                <Setter Property="FontSize" Value="Large"></Setter>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label Text="{Binding OfferPrice, StringFormat='OfferPrice: {0:C}'}"
+                                           Grid.Column="1"
+                                           Grid.Row="2"></Label>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                    <DataTemplate x:Key="product">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem BackgroundColor="LightPink"
+                                           Text="Delete"
+                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Delete_Command}"
+                                           CommandParameter="{Binding }"
+                                           IconImageSource="trash.png"></SwipeItem>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItem BackgroundColor="LightGreen"
+                                           Text="Favorite"
+                                           Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Favorite_Command}"
+                                           IconImageSource="favorite_star.png"></SwipeItem>
+                            </SwipeView.RightItems>
+                            <Frame Padding="5"
                             CornerRadius="5"
-                            IsClippedToBounds="False"
-                            BackgroundColor="Beige">
-                            <Grid HeightRequest="100">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Label Text="Discount"
-                                    TextColor="Red"
-                                    Grid.Column="2"
-                                    HorizontalOptions="Center"></Label>
-                                <Button Text="{Binding Discount, StringFormat='{0}%'}"
-                                    Grid.Column="2"
-                                    Grid.Row="1"
-                                    Grid.RowSpan="2"
-                                    BackgroundColor="LightPink"
-                                    TextColor="DarkRed"
-                                    FontSize="20"
-                                    Rotation="315"
-                                    CornerRadius="30"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    WidthRequest="60"
-                                    HeightRequest="60"></Button>
-                                <Label Text="{Binding Name}"
+                            IsClippedToBounds="False">
+                                <Grid HeightRequest="100">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                        <RowDefinition Height=".33*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{Binding Name}"
                                     Grid.Column="1"
                                     FontAttributes="Bold"></Label>
-                                <Image Source="{Binding Image}"
+                                    <Image Source="{Binding Image}"
                                     Grid.RowSpan="3"
                                     Aspect="AspectFit"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center"
                                     HeightRequest="75"></Image>
-                                <Label Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                Grid.Column="1"
-                                Grid.Row="1">
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label"
-                                                Binding="{Binding HasOffer}"
-                                                Value="True">
-                                            <Setter Property="TextColor" Value="DarkRed"></Setter>
-                                            <Setter Property="FontSize" Value="Large"></Setter>
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
-                            </Grid>
-                        </Frame>
-                    </SwipeView>
-                </DataTemplate>
-                <DataTemplate x:Key="product">
-                    <SwipeView>
-                        <SwipeView.LeftItems>
-                            <SwipeItem BackgroundColor="LightPink"
-                                       Text="Delete"
-                                       Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Delete_Command}"
-                                       CommandParameter="{Binding }"
-                                       IconImageSource="trash.png"></SwipeItem>
-                        </SwipeView.LeftItems>
-                        <SwipeView.RightItems>
-                            <SwipeItem BackgroundColor="LightGreen"
-                                       Text="Favorite"
-                                       Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.Favorite_Command}"
-                                       IconImageSource="favorite_star.png"></SwipeItem>
-                        </SwipeView.RightItems>
-                        <Frame Padding="5"
-                        CornerRadius="5"
-                        IsClippedToBounds="False">
-                            <Grid HeightRequest="100">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                    <RowDefinition Height=".33*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Label Text="{Binding Name}"
-                                Grid.Column="1"
-                                FontAttributes="Bold"></Label>
-                                <Image Source="{Binding Image}"
-                                Grid.RowSpan="3"
-                                Aspect="AspectFit"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                HeightRequest="75"></Image>
-                                <Label Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                Grid.Column="1"
-                                Grid.Row="1">
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label"
-                                                Binding="{Binding HasOffer}"
-                                                Value="True">
-                                            <Setter Property="TextColor" Value="DarkRed"></Setter>
-                                            <Setter Property="FontSize" Value="Large"></Setter>
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
-                                <Label Text="{Binding Discount, StringFormat='Discount: {0}%'}"
-                                Grid.Column="1"
-                                Grid.Row="2"
-                                IsVisible="{Binding HasOffer}"></Label>
-                            </Grid>
-                        </Frame>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.Resources>
-        </CollectionView>
-    </RefreshView>
+                                    <Label Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                    Grid.Column="1"
+                                    Grid.Row="1">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                    Binding="{Binding HasOffer}"
+                                                    Value="True">
+                                                <Setter Property="TextColor" Value="DarkRed"></Setter>
+                                                <Setter Property="FontSize" Value="Large"></Setter>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <!--<Label Text="{Binding Discount, StringFormat='Discount: {0}%'}"
+                                    Grid.Column="1"
+                                    Grid.Row="2"
+                                    IsVisible="{Binding HasOffer}"></Label>
+                                    <Label Text="{Binding OfferPrice, StringFormat='OfferPrice: {0:C}'}"
+                                    Grid.Column="1"
+                                    Grid.Row="2"
+                                    IsVisible="{Binding HasOffer}"></Label>-->
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.Resources>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>
