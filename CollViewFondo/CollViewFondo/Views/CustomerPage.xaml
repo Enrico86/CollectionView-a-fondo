@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:skeleton="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             mc:Ignorable="d"
+             x:Class="CollViewFondo.Views.CustomerPage"
+             BackgroundColor="DarkBlue"
+             x:Name="customersPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="SkeletonLabels">
+                <Setter Property="skeleton:Skeleton.BackgroundColor"
+                        Value="Beige"></Setter>
+                <Setter Property="skeleton:Skeleton.IsBusy" 
+                        Value="{Binding Source={x:Reference Name=customersPage}, Path=BindingContext.IsBusy}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+        <StackLayout>
+            <Button Text="Manual Scrolling"
+                    Clicked="ScrollButton_Clicked"></Button>
+            <CollectionView x:Name="collectionView"
+                            ItemsSource="{Binding Customers}"
+                            Margin="10"
+                            IsGrouped="True"
+                            skeleton:Skeleton.Animation="{skeleton:DefaultAnimation Fade}"
+                            skeleton:Skeleton.IsBusy="{Binding IsBusy}"
+                            skeleton:Skeleton.IsParent="True">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="5"
+                                       SnapPointsType="Mandatory"
+                                       SnapPointsAlignment="Start"></LinearItemsLayout>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="AliceBlue"
+                            CornerRadius="10">
+                            <StackLayout>
+                                <Label Text="{Binding Id}"
+                                       Style="{StaticResource SkeletonLabels}"></Label>
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource SkeletonLabels}"></Label>
+                                <Label Text="{Binding Email}"
+                                       Style="{StaticResource SkeletonLabels}"></Label>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding GroupName}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               BackgroundColor="LightBlue"></Label>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+            </CollectionView>
+        </StackLayout>
+</ContentPage>

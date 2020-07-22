@@ -444,7 +444,7 @@ namespace CollViewFondo.ViewModels
                 {
                     item.ID = id;
                     id++;
-                    offerPrice = item.Price * (item.Discount / 100);
+                    offerPrice = item.Price - item.Price * ((decimal)item.Discount / 100);
                     item.OfferPrice = offerPrice;
                 }
             }
@@ -459,8 +459,5 @@ namespace CollViewFondo.ViewModels
                 ProductsGroupedList.Add(item);
             }
         }
-        
-        public async Task GetData()
-    
     }
 }

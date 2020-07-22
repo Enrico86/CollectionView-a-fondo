@@ -119,14 +119,16 @@
                                             <DataTrigger TargetType="Label"
                                                     Binding="{Binding HasOffer}"
                                                     Value="True">
-                                                <Setter Property="TextColor" Value="DarkRed"></Setter>
-                                                <Setter Property="FontSize" Value="Large"></Setter>
+                                                <Setter Property="TextColor" Value="Black"></Setter>
+                                                <Setter Property="FontSize" Value="Medium"></Setter>
                                             </DataTrigger>
                                         </Label.Triggers>
                                     </Label>
                                     <Label Text="{Binding OfferPrice, StringFormat='OfferPrice: {0:C}'}"
                                            Grid.Column="1"
-                                           Grid.Row="2"></Label>
+                                           Grid.Row="2"
+                                           FontSize="Large"
+                                           TextColor="DarkRed"></Label>
                                 </Grid>
                             </Frame>
                         </SwipeView>

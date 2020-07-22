@@ -15,10 +15,12 @@ namespace CollViewFondo.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PeoplePage : ContentPage
     {
+        public PeoplePageViewModel ppvm = new PeoplePageViewModel();
+
         public PeoplePage()
         {
             InitializeComponent();
-            BindingContext = new PeoplePageViewModel();
+            BindingContext = ppvm;
         }
 
         //private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -31,5 +33,12 @@ namespace CollViewFondo.Views
         //    var itemSelected = e.CurrentSelection;
         //    var previousItemSelected = e.PreviousSelection;
         //}
+
+        protected override async void OnAppearing()
+        {
+
+            await ppvm.GetData();
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -42,11 +43,7 @@ namespace CollViewFondo.ViewModels
 
         public PeoplePageViewModel()
         {
-            var people = PeopleService.GetPeople().OrderBy(x=>x.FirstName);
-            People = new ObservableCollection<Person>(people);
-            SelectedPeopleList = new List<Person>();
-            SelectedPeople = new List<object>(people.Take(5));
-            SelectedPerson = people.Skip(3).FirstOrDefault(n => n.FirstName.StartsWith("D"));
+            
 
             PersonChanged_Command = new Command((item) =>
             {
@@ -66,6 +63,15 @@ namespace CollViewFondo.ViewModels
                 SelectedPerson = null;
                 SelectedPeople = null;
             });
+        }
+
+        public async Task GetData()
+        {
+            var people = PeopleService.GetPeople().OrderBy(x => x.FirstName);
+            People = new ObservableCollection<Person>(people);
+            SelectedPeopleList = new List<Person>();
+            SelectedPeople = new List<object>(people.Take(5));
+            SelectedPerson = people.Skip(3).FirstOrDefault(n => n.FirstName.StartsWith("D"));
         }
 
     }
